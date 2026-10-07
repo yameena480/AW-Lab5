@@ -418,3 +418,14 @@ Never commit the following files or values to a public GitHub repository:
 * Private keys
 
 These values should be stored securely using environment variables.
+<img width="1366" height="720" alt="Screenshot 2026-10-07 112012" src="https://github.com/user-attachments/assets/36460a8e-59fc-4a62-a268-488858125bf2" />
+<img width="1366" height="720" alt="Screenshot 2026-10-07 112038" src="https://github.com/user-attachments/assets/a57db761-4c2e-4c9d-89b7-182f0c8ffc0d" />
+
+
+
+![Uploading Screenshot 2026-10-07 112058.png…]()
+<img width="1366" height="720" alt="Screenshot 2026-10-07 112141" src="https://github.com/user-attachments/assets/859a5a48-0ec0-495c-9f92-23547f3d5a09" />
+
+
+
+
