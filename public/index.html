@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enterprise Security Gateway</title>
+  <style>
+    :root {
+      --bg: #f4f2fb;
+      --card: #ffffff;
+      --ink: #1f1b3a;
+      --muted: #6b6788;
+      --line: #e6e2f5;
+      --brand: #5b4bdb;
+      --brand-dark: #4636bd;
+      --brand-soft: #ece9ff;
+      --ok: #1e9e6a;
+      --code-bg: #1d1a33;
+      --code-ink: #d9d4ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ---------- Header ---------- */
+    .hero {
+      background: linear-gradient(135deg, #3b2fa8 0%, #5b4bdb 55%, #8b6cf0 100%);
+      color: #fff;
+      padding: 44px 16px 90px;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
+      background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+      padding: 5px 12px; border-radius: 999px;
+    }
+    h1 { font-size: clamp(26px, 5vw, 38px); margin: 14px 0 8px; line-height: 1.15; }
+    .sub { margin: 0; color: rgba(255,255,255,.82); max-width: 560px; }
+
+    /* ---------- Layout ---------- */
+    main.wrap { margin-top: -56px; padding: 0 16px 48px; }
+
+    .status {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 14px 18px; margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(59, 47, 168, .12);
+      color: var(--muted);
+    }
+    .status .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--brand); flex: none;
+      box-shadow: 0 0 0 4px var(--brand-soft); }
+    .status strong { color: var(--ink); font-weight: 600; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 16px; padding: 24px; margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(31, 27, 58, .05);
+    }
+    .card h2 {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 19px; margin: 0 0 18px;
+    }
+    .num {
+      width: 28px; height: 28px; border-radius: 50%; flex: none;
+      display: grid; place-items: center; font-size: 14px; font-weight: 700;
+      color: var(--brand); background: var(--brand-soft);
+    }
+
+    /* ---------- Form ---------- */
+    .row { display: flex; flex-wrap: wrap; gap: 12px; }
+    input {
+      flex: 1 1 240px;
+      padding: 12px 14px; font-size: 15px; font-family: inherit; color: var(--ink);
+      background: #faf9ff; border: 1.5px solid var(--line); border-radius: 10px;
+      outline: none; transition: border-color .15s, box-shadow .15s;
+    }
+    input::placeholder { color: #a9a5c4; }
+    input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-soft); background: #fff; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    button {
+      font-family: inherit; font-size: 15px; font-weight: 600;
+      padding: 11px 18px; border-radius: 10px; cursor: pointer;
+      border: 1.5px solid var(--line); background: #fff; color: var(--ink);
+      transition: transform .08s, background .15s, border-color .15s, box-shadow .15s;
+    }
+    button:hover { border-color: var(--brand); background: var(--brand-soft); }
+    button:active { transform: translateY(1px); }
+    button:focus-visible { outline: 3px solid var(--brand-soft); outline-offset: 2px; border-color: var(--brand); }
+
+    #btn-login, #btn-refresh {
+      background: var(--brand); border-color: var(--brand); color: #fff;
+      box-shadow: 0 4px 12px rgba(91, 75, 219, .3);
+    }
+    #btn-login:hover, #btn-refresh:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+    #btn-logout { color: #b3364a; }
+    #btn-logout:hover { background: #fdecef; border-color: #e7a3ae; }
+
+    #btn-google::before, #btn-github::before {
+      content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+      margin-right: 9px; vertical-align: 0;
+    }
+    #btn-google::before { background: conic-gradient(#ea4335 0 25%, #fbbc05 0 50%, #34a853 0 75%, #4285f4 0); }
+    #btn-github::before { background: #24292f; }
+
+    .group-label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 18px 0 0; }
+
+    /* ---------- Response ---------- */
+    h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 24px 0 8px; }
+    pre {
+      margin: 0; min-height: 90px; max-height: 340px; overflow: auto;
+      background: var(--code-bg); color: var(--code-ink);
+      border-radius: 12px; padding: 16px;
+      font: 13px/1.6 Consolas, "SF Mono", Menlo, monospace;
+      white-space: pre-wrap; word-break: break-word;
+    }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding-bottom: 28px; }
+
+    @media (max-width: 520px) {
+      .hero { padding: 32px 16px 80px; }
+      .card { padding: 18px; }
+      button { flex: 1 1 auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <span class="badge">&#128274; CSC337 &middot; Lab 5</span>
+      <h1>Enterprise Multi-Tenant Security Gateway</h1>
+      <p class="sub">JWT login, OAuth 2.0, token rotation and role-based access control, all in one place.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="status">
+      <span class="dot"></span>
+      <span>Status: <strong id="status">Not logged in</strong></span>
+    </div>
+
+    <section class="card">
+      <h2><span class="num">1</span> Local login</h2>
+      <div class="row">
+        <input id="email" type="email" placeholder="Email" value="employee@awlab5.com" autocomplete="username">
+        <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+      </div>
+      <div class="actions">
+        <button id="btn-login">Login</button>
+        <button id="btn-register">Register (new Employee)</button>
+        <button id="btn-logout">Logout</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="num">2</span> Social login (OAuth 2.0)</h2>
+      <div class="actions" style="margin-top:0">
+        <button id="btn-google">Login with Google</button>
+        <button id="btn-github">Login with GitHub</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="num">3</span> Tokens and protected routes</h2>
+      <div class="actions" style="margin-top:0">
+        <button id="btn-refresh">Refresh token (rotate)</button>
+        <button id="btn-profile">GET /employees/profile</button>
+        <button id="btn-payroll">POST /payroll/approve</button>
+        <button id="btn-users">GET /users (SuperAdmin)</button>
+      </div>
+      <h3>Response</h3>
+      <pre id="output">Nothing yet.</pre>
+    </section>
+  </main>
+
+  <footer>Enterprise Security API &middot; CSC337 Lab 5</footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
